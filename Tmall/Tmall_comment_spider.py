@@ -30,13 +30,13 @@ def get_one_page_comment(item_id, seller_id, page_num):  #根据item_id，和sel
     try:
         page_data = urllib2.urlopen(req).read().decode('gbk')
     except Exception, e:
-        print 'page:',page ,e
+        print 'page:',page_num ,e
         return []
     try:
         myjson = re.findall('\"rateList\":(\[.*?\])\,\"tags\"',page_data)[0]  #从json数据中匹配评论的部分
         page_dict = json.loads(myjson)  
     except Exception, e:
-        print 'page:',i,e
+        print 'page:',page_num,e
         return []
     if len(page_dict) == 0:
         return []

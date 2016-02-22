@@ -49,12 +49,6 @@ def get_Tmall_comment(itemId, sellerId, save_dir):
     print len(comment_set)
 
 
-def get_huawei_phone_list(url):
-    cookie = cookielib.CookieJar()
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
-    resp = opener.open(url)
-    page = resp.read().decode('gbk')
-    print page.encode('utf-8')
 
 
 if __name__ == '__main__':

@@ -10,10 +10,10 @@ from bs4 import BeautifulSoup
 
 user_proxy = True
 ips = []
-web_json_url = 'http://club.jd.com/productpage/p-%s-s-0-t-3-p-%d.html'
+web_json_url = 'http://club.jd.com/productpage/p-%s-s-0-t-3-p-%d.html'  #京东商品评论的json页面，第一个%s参数为商品id，第二个%d参数为评论的页数
 comments = set()
 
-class CommentDownload(threading.Thread):
+class CommentDownload(threading.Thread):         #利用多线程爬取，一般用不到
     def __init__(self,queue, pid, file_name):
         threading.Thread.__init__(self)
         self.queue = queue
@@ -57,7 +57,7 @@ def get_max_page_num(pid):
     page_dict = json.loads(page_data)
     return page_dict['productCommentSummary']['commentCount'] / 10 + 1
 
-def get_comments(pid, page_num):
+def get_comments(pid, page_num):   #爬取商品id为pid的商品的第page_num页的评论
     headers1 = {'GET': '',
     'Host': "club.jd.com",
     'User-Agent': "Mozilla/5.0 (Windows NT 6.2; rv:29.0) Gecko/20100101 Firefox/29.0",
@@ -90,13 +90,13 @@ def scraw_web_json(pid, file_name):
         print 'page_num:',page_num
         #time.sleep(random.randint(1,2))
         contents = get_comments(pid, page_num)
-        if len(contents) == 0:
+        if len(contents) == 0:                #京东对商品评论的爬取有限制，只能抓取到最近一个月内的商品评论，再之前的评论都抓不到
             print 'done'
             return
         for content in contents:
             if content in content_set:
                 continue
-            content_set.add(content)
+            content_set.add(content)         #用一个集合来进行去重
             print content.encode('utf-8')
             fp.write(content.encode('utf-8') + '\n')
 
